@@ -136,4 +136,20 @@ exports.createClass = async(req,res)=>{
     }
 }
 
+exports.viewClass = async(req,res)=>{
+    try{
+        const classData = await StudClass.find({active:true})
+        if(classData.length === 0){
+            return res.status(400).json({message:"No class found"})
+        }
+        res.status(200).json({
+            success: true,
+            data: classData,
+            message: 'Class retrieved successfully.'
+        });
+        }catch(error){
+        res.status(500).json({message: error.message})
+    }
+}
+
 
