@@ -1,0 +1,29 @@
+const jwt = require('jsonwebtoken')
+const User = require("../models/user")
+
+const auth = async (req, res, next) => {
+    if (!req.header('Authorization')) {
+        return res.status(401).json({ error: 'Authorization header missing' });
+    }
+    const token = req.header('Authorization').replace('Bearer ', '');
+    try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    const user = await User.findOne({ _id: decoded._id, active: true });
+    if (!user) {
+        throw new Error();
+    }
+    user.lastLogin = new Date();
+    await user.save();
+    req.token = token;
+    req.user = user;
+    next();
+} catch (error) {
+    if (error.message === 'jwt expired') {
+        return res.status(401).json({ error: 'Token has expired, please login again' });
+    }
+    return res.status(401).json({ error: 'Please authenticate.' });
+}
+};
+
+module.exports = {auth};
