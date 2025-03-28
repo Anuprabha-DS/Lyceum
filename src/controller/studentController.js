@@ -55,36 +55,68 @@ exports.createStudent = async(req,res)=>{
 }
 
 
-exports.viewAllStudents = async(req,res)=>{
-    try{
-        const {className} = req.body
-        if (className === false){
-            const studentsData = await Students.find({active:true})
-            if(studentsData.length ===0){
-                return res.status(400).json({message:"No students data found"})
-            }
-            res.status(200).json({
-                success: true,
-                data: studentsData,
-                message: 'All students retrieved successfully.'
-            })
-        }
-        else{
-            const studentsData = await Students.find({active:true,class:className})
-            if(studentsData.length ===0){
-                return res.status(400).json({message:`No students data found in class ${className}`})
-            }
-            res.status(200).json({
-                success: true,
-                data: studentsData,
-                message: 'All students retrieved successfully.'
-            })
-        }
+// exports.viewAllStudents = async(req,res)=>{
+//     try{
+//         const {className} = req.body
+//         if (className === false){
+//             const studentsData = await Students.find({active:true})
+//             if(studentsData.length ===0){
+//                 return res.status(400).json({message:"No students data found"})
+//             }
+//             res.status(200).json({
+//                 success: true,
+//                 data: studentsData,
+//                 message: 'All students retrieved successfully.'
+//             })
+//         }
+//         else{
+//             const studentsData = await Students.find({active:true,class:className})
+//             if(studentsData.length ===0){
+//                 return res.status(400).json({message:`No students data found in class ${className}`})
+//             }
+//             res.status(200).json({
+//                 success: true,
+//                 data: studentsData,
+//                 message: 'All students retrieved successfully.'
+//             })
+//         }
         
-    }catch(error){
-        res.status(500).json({message: error.message})
+//     }catch(error){
+//         res.status(500).json({message: error.message})
+//     }
+// }
+
+exports.viewAllStudents = async (req, res) => {
+    try {
+        const { className } = req.body;
+
+        let studentsData;
+
+        if (className) {
+            studentsData = await Students.find({ active: true, class: className });
+            if (studentsData.length === 0) {
+                return res.status(400).json({ message: `No students data found in class ${className}` });
+            }
+            return res.status(200).json({
+                success: true,
+                data: studentsData,
+                message: 'Students retrieved successfully for the specified class.'
+            });
+        } else {
+            studentsData = await Students.find({ active: true });
+            if (studentsData.length === 0) {
+                return res.status(400).json({ message: "No students data found" });
+            }
+            return res.status(200).json({
+                success: true,
+                data: studentsData,
+                message: 'All students retrieved successfully.'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-}
+};
 
 
 exports.viewStudentById = async(req,res)=>{

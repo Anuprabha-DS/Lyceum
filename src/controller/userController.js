@@ -126,7 +126,7 @@ exports.createClass = async(req,res)=>{
             class:studClass
         })
         await newClass.save()
-        res.json({ 
+        res.status(201).json({ 
             message: 'Class successfully added',
             newClass
         });
