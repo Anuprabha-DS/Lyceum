@@ -142,9 +142,16 @@ exports.viewClass = async(req,res)=>{
         if(classData.length === 0){
             return res.status(400).json({message:"No class found"})
         }
+        const modifiedData = classData.map(item => ({
+            _id: item._id,
+            name: item.class,  
+            active: item.active,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt
+        }));
         res.status(200).json({
             success: true,
-            data: classData,
+            data: modifiedData,
             message: 'Class retrieved successfully.'
         });
         }catch(error){
