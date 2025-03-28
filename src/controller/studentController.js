@@ -58,7 +58,7 @@ exports.createStudent = async(req,res)=>{
 exports.viewAllStudents = async(req,res)=>{
     try{
         const {className} = req.body
-        if (className == ""){
+        if (className === false){
             const studentsData = await Students.find({active:true})
             if(studentsData.length ===0){
                 return res.status(400).json({message:"No students data found"})
