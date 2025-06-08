@@ -54,7 +54,6 @@ exports.createStudent = async(req,res)=>{
     });
 }
 
-
 // exports.viewAllStudents = async(req,res)=>{
 //     try{
 //         const {className} = req.body
@@ -80,7 +79,6 @@ exports.createStudent = async(req,res)=>{
 //                 message: 'All students retrieved successfully.'
 //             })
 //         }
-        
 //     }catch(error){
 //         res.status(500).json({message: error.message})
 //     }
@@ -89,9 +87,7 @@ exports.createStudent = async(req,res)=>{
 exports.viewAllStudents = async (req, res) => {
     try {
         const { className } = req.body;
-
         let studentsData;
-
         if (className) {
             studentsData = await Students.find({ active: true, class: className });
             if (studentsData.length === 0) {

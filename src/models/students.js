@@ -11,8 +11,8 @@ const studentSchema = new mongoose.Schema({
     school: { type: String, trim: true ,default: null },
     photo: { type: String, required: false }, // URL or file path for the student's photo
     active: {type: Boolean,default: true},
-    username: { type: String, default: false }, 
-    password: { type: String, default: false }, 
+    username: { type: String, default: null }, 
+    password: { type: String, default: null }, 
 
 }, { timestamps: true });
 
